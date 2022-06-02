@@ -26,7 +26,7 @@ object TypicodeClient extends TyrianApp[Msg, Users]:
     div(`class` := "ui raised padded container segment")(
       h1(`class` := "ui header")(
         i(`class` := "circular users icon")(),
-        text("Users")
+        if model.users.length == 1 then text(model.users.head.name) else text("Users")
       ) ::
         div(`class` := "ui divider")() ::
         model.users.map { user =>
