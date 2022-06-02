@@ -1,0 +1,9 @@
+.bloop/
+.bsp/
+.metals/
+.parcel-cache/
+.vscode/
+dist/
+node_modules/
+target/
+metals.sbt
