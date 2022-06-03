@@ -2,6 +2,9 @@ package pro.reiss
 
 import io.circe.Codec
 
+enum DisplayTarget:
+  case USERS, USER, POST, ERROR
+
 final case class Geo(
     lat: String,
     lng: String
@@ -50,7 +53,8 @@ final case class Users(
     users: List[User] = List.empty,
     todos: List[Todo] = List.empty,
     posts: List[Post] = List.empty,
-    error: Option[String] = None
+    error: Option[String] = None,
+    displayTarget: DisplayTarget = DisplayTarget.USERS
 ) derives Codec.AsObject
 
 object Users:

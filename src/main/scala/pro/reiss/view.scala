@@ -5,38 +5,56 @@ import tyrian.*
 
 def usersView(model: Users): Html[Msg] =
   div(`class` := "ui raised very padded container segment")(
-    userHeader(model) ::
-      div(`class` := "ui divider")() ::
-      (if model.error.isDefined then div(`class` := "content")(text(model.error.get)) :: Nil
-       else if model.users.length == 1 then
-         userDetailView(model.users.head, model.todos, model.posts) :: Nil
-       else userListView(model.users))
+    targetedHeader(model) :: div(`class` := "ui divider")() :: targetedView(model)
   )
 
-def userHeader(model: Users): Html[Msg] =
+def targetedHeader(model: Users): Html[Msg] =
   h1(`class` := "ui header")(
     i(`class` := "circular users icon")(),
-    model.users match
-      case user :: Nil =>
-        div(`class` := "content", style("width", "91%"))(
-          div(`class` := "ui grid")(
-            div(`class` := "row")(
-              div(`class` := "fourteen wide column")(
-                p(model.users.head.name)
-              ),
-              div(`class` := "two wide column")(
-                button(
-                  `class` := "large ui left labeled icon button",
-                  onClick(Msg.GetAllUsers)
-                )(
-                  i(`class` := "left chevron icon")(),
-                  text("Back")
-                )
-              )
-            )
+    model.displayTarget match
+      case DisplayTarget.USER =>
+        userHeader(model.users.head.name, Msg.GetAllUsers)
+      case DisplayTarget.POST =>
+        userHeader(model.users.head.name, Msg.GetUser(model.users.head.id))
+      case _ => div(`class` := "content")(text("Users"))
+  )
+
+def userHeader(t: String, msg: Msg): Html[Msg] =
+  div(`class` := "content", style("width", "91%"))(
+    div(`class` := "ui grid")(
+      div(`class` := "row")(
+        div(`class` := "fourteen wide column")(
+          p(t)
+        ),
+        div(`class` := "two wide column")(
+          button(
+            `class` := "large ui left labeled icon button",
+            onClick(msg)
+          )(
+            i(`class` := "left chevron icon")(),
+            text("Back")
           )
         )
-      case _ => div(`class` := "content")(text("Users"))
+      )
+    )
+  )
+
+def targetedView(model: Users): List[Html[Msg]] =
+  model.displayTarget match
+    case DisplayTarget.USERS => userListView(model.users)
+    case DisplayTarget.USER  => List(userDetailView(model.users.head, model.todos, model.posts))
+    case DisplayTarget.POST  => List(postView(model.posts.head))
+    case DisplayTarget.ERROR => List(div(`class` := "content")(text(model.error.get)))
+
+def postView(post: Post): Html[Msg] =
+  div(`class` := "ui card", style("width", "94%"))(
+    div(`class` := "content")(
+      div(`class` := "header")(
+        i(`class` := "edit icon")(),
+        text(post.title)
+      ),
+      div(`class` := "description")(text(post.body))
+    )
   )
 
 def userListView(users: List[User]): List[Html[Msg]] =
@@ -183,7 +201,7 @@ def userDetailView(user: User, todos: List[Todo], posts: List[Post]): Html[Msg] 
           div(`class` := "item")(
             i(`class` := "check icon")(),
             div(`class` := "content")(
-              div(`class` := "header")(post.title),
+              a(`class` := "header", onClick(Msg.DisplayPost(user, post)))(post.title),
               div(`class` := "description")(text(post.body))
             )
           )
