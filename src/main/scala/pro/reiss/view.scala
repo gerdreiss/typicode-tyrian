@@ -20,20 +20,16 @@ def targetedHeader(model: Users): Html[Msg] =
   )
 
 def userHeader(t: String, msg: Msg): Html[Msg] =
-  div(`class` := "content", style("width", "91%"))(
+  div(`class` := "content", style("width", "92%"))(
     div(`class` := "ui grid")(
       div(`class` := "row")(
         div(`class` := "fourteen wide column")(
           p(t)
         ),
         div(`class` := "two wide column")(
-          button(`class` := "ui basic button", onClick(msg))(
-            div(`class` := "ui grid")(
-              div(`class` := "row")(
-                i(`class` := "left arrow icon")(),
-                text("Back")
-              )
-            )
+          button(`class` := "ui labeled button", onClick(msg))(
+            i(`class` := "left arrow icon")(),
+            text("Back")
           )
         )
       )
@@ -221,7 +217,9 @@ def postView(post: Post, comments: List[Comment]): List[Html[Msg]] =
               i(`class` := "envelope icon")(),
               text(comment.email)
             ),
-            div(`class` := "description")(p(comment.name))
+            br,
+            div(`class` := "item")(p(comment.body)),
+            div(`class` := "ui divider")()
           )
         )
       )
