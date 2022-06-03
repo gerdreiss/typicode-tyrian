@@ -8,7 +8,8 @@ def usersView(model: Users): Html[Msg] =
     userHeader(model) ::
       div(`class` := "ui divider")() ::
       (if model.error.isDefined then div(`class` := "content")(text(model.error.get)) :: Nil
-       else if model.users.length == 1 then userDetailView(model.users.head) :: Nil
+       else if model.users.length == 1 then
+         userDetailView(model.users.head, model.todos, model.posts) :: Nil
        else userListView(model.users))
   )
 
@@ -78,7 +79,10 @@ def userListView(users: List[User]): List[Html[Msg]] =
       div(`class` := "three wide column")(
         div(`class` := "ui card")(
           div(`class` := "content")(
-            div(`class` := "header")(text("Position")),
+            div(`class` := "header")(
+              i(`class` := "location arrow icon")(),
+              text("Position")
+            ),
             div(`class` := "description")(s"Lat: ${user.address.geo.lat}"),
             div(`class` := "description")(s"Lng: ${user.address.geo.lng}"),
             br,
@@ -95,7 +99,7 @@ def userListView(users: List[User]): List[Html[Msg]] =
             ),
             div(`class` := "description")(user.company.name),
             div(`class` := "description")(user.company.catchPhrase),
-            div(`class` := "description")(user.company.bs),
+            div(`class` := "extra content")(p(user.company.bs)),
             br
           )
         )
@@ -103,7 +107,7 @@ def userListView(users: List[User]): List[Html[Msg]] =
     )
   }
 
-def userDetailView(user: User): Html[Msg] =
+def userDetailView(user: User, todos: List[Todo], posts: List[Post]): Html[Msg] =
   div(`class` := "ui grid")(
     div(`class` := "five wide column")(
       div(`class` := "ui card")(
@@ -155,10 +159,16 @@ def userDetailView(user: User): Html[Msg] =
           text("To-Do List")
         )
       ),
-      div(`class` := "ui card")(
-        div(`class` := "content")(
-          div(`class` := "header")(text("To-Do List"))
-        )
+      div(`class` := "ui relaxed divided list")(
+        todos.map { todo =>
+          div(`class` := "item")(
+            if todo.completed then i(`class` := "check icon")()
+            else i(`class` := "square outline icon")(),
+            div(`class` := "content")(
+              div(`class` := "description")(todo.title)
+            )
+          )
+        }
       )
     ),
     div(`class` := "five wide column")(
@@ -168,10 +178,16 @@ def userDetailView(user: User): Html[Msg] =
           text("Posts")
         )
       ),
-      div(`class` := "ui card")(
-        div(`class` := "content")(
-          div(`class` := "header")(text("Posts"))
-        )
+      div(`class` := "ui relaxed divided list")(
+        posts.map { post =>
+          div(`class` := "item")(
+            i(`class` := "check icon")(),
+            div(`class` := "content")(
+              div(`class` := "header")(post.title),
+              div(`class` := "description")(text(post.body))
+            )
+          )
+        }
       )
     )
   )
