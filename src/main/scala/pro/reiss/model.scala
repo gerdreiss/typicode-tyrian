@@ -48,6 +48,8 @@ final case class User(
 
 final case class Users(
     users: List[User] = List.empty,
+    todos: List[Todo] = List.empty,
+    posts: List[Post] = List.empty,
     error: Option[String] = None
 ) derives Codec.AsObject
 

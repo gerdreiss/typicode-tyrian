@@ -46,7 +46,7 @@ def userListView(users: List[User]): List[Html[Msg]] =
           div(`class` := "content")(
             div(`class` := "header")(a(onClick(Msg.GetUser(user.id)))(user.name)),
             div(`class` := "description")(
-              i(`class` := "at icon")(),
+              i(`class` := "envelope icon")(),
               text(user.email)
             ),
             div(`class` := "description")(
@@ -64,7 +64,10 @@ def userListView(users: List[User]): List[Html[Msg]] =
       div(`class` := "three wide column")(
         div(`class` := "ui card")(
           div(`class` := "content")(
-            div(`class` := "header")(text("Address")),
+            div(`class` := "header")(
+              i(`class` := "address book icon")(),
+              text("Address")
+            ),
             div(`class` := "description")(user.address.street),
             div(`class` := "description")(user.address.suite),
             div(`class` := "description")(user.address.city),
@@ -86,7 +89,10 @@ def userListView(users: List[User]): List[Html[Msg]] =
       div(`class` := "six wide column")(
         div(`class` := "ui card")(
           div(`class` := "content")(
-            div(`class` := "header")(text("Company")),
+            div(`class` := "header")(
+              i(`class` := "building icon")(),
+              text("Company")
+            ),
             div(`class` := "description")(user.company.name),
             div(`class` := "description")(user.company.catchPhrase),
             div(`class` := "description")(user.company.bs),
@@ -103,7 +109,7 @@ def userDetailView(user: User): Html[Msg] =
       div(`class` := "ui card")(
         div(`class` := "content")(
           div(`class` := "description")(
-            i(`class` := "at icon")(),
+            i(`class` := "envelope icon")(),
             text(user.email)
           ),
           div(`class` := "description")(
@@ -118,7 +124,10 @@ def userDetailView(user: User): Html[Msg] =
       ),
       div(`class` := "ui card")(
         div(`class` := "content")(
-          div(`class` := "header")(text("Address")),
+          div(`class` := "header")(
+            i(`class` := "address book icon")(),
+            text("Address")
+          ),
           div(`class` := "description")(user.address.street),
           div(`class` := "description")(user.address.suite),
           div(`class` := "description")(user.address.city),
@@ -129,7 +138,10 @@ def userDetailView(user: User): Html[Msg] =
       ),
       div(`class` := "ui card")(
         div(`class` := "content")(
-          div(`class` := "header")(text("Company")),
+          div(`class` := "header")(
+            i(`class` := "building icon")(),
+            text("Company")
+          ),
           div(`class` := "description")(user.company.name),
           div(`class` := "description")(user.company.catchPhrase),
           div(`class` := "description")(user.company.bs)
