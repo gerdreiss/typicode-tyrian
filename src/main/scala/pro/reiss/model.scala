@@ -2,13 +2,24 @@ package pro.reiss
 
 import io.circe.Codec
 
-final case class Users(
-    users: List[User] = List.empty,
-    error: Option[String] = None
+final case class Geo(
+    lat: String,
+    lng: String
 ) derives Codec.AsObject
 
-object Users:
-  def empty: Users = Users()
+final case class Address(
+    street: String,
+    suite: String,
+    city: String,
+    zipcode: String,
+    geo: Geo
+) derives Codec.AsObject
+
+final case class Company(
+    name: String,
+    catchPhrase: String,
+    bs: String
+) derives Codec.AsObject
 
 final case class User(
     id: Int,
@@ -21,21 +32,10 @@ final case class User(
     company: Company
 ) derives Codec.AsObject
 
-final case class Address(
-    street: String,
-    suite: String,
-    city: String,
-    zipcode: String,
-    geo: Geo
+final case class Users(
+    users: List[User] = List.empty,
+    error: Option[String] = None
 ) derives Codec.AsObject
 
-final case class Geo(
-    lat: String,
-    lng: String
-) derives Codec.AsObject
-
-final case class Company(
-    name: String,
-    catchPhrase: String,
-    bs: String
-) derives Codec.AsObject
+object Users:
+  def empty: Users = Users()

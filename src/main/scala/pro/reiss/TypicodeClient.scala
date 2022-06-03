@@ -23,60 +23,11 @@ object TypicodeClient extends TyrianApp[Msg, Users]:
   }
 
   def view(model: Users): Html[Msg] =
-    div(`class` := "ui raised padded container segment")(
-      h1(`class` := "ui header")(
-        i(`class` := "circular users icon")(),
-        if model.users.length == 1 then text(model.users.head.name) else text("Users")
-      ) ::
+    div(`class` := "ui raised very padded container segment")(
+      userHeader(model) ::
         div(`class` := "ui divider")() ::
-        model.users.map { user =>
-          div(`class` := "ui grid")(
-            div(`class` := "four wide column")(
-              div(`class` := "ui card")(
-                div(`class` := "content")(
-                  div(`class` := "header")(a(onClick(Msg.GetUser(user.id)))(user.name)),
-                  div(`class` := "description")(user.email),
-                  div(`class` := "description")(user.phone),
-                  div(`class` := "description")(user.website),
-                  br
-                )
-              )
-            ),
-            div(`class` := "three wide column")(
-              div(`class` := "ui card")(
-                div(`class` := "content")(
-                  div(`class` := "header")(text("Address")),
-                  div(`class` := "description")(user.address.street),
-                  div(`class` := "description")(user.address.suite),
-                  div(`class` := "description")(user.address.city),
-                  div(`class` := "description")(user.address.zipcode)
-                )
-              )
-            ),
-            div(`class` := "three wide column")(
-              div(`class` := "ui card")(
-                div(`class` := "content")(
-                  div(`class` := "header")(text("Position")),
-                  div(`class` := "description")(s"Lat: ${user.address.geo.lat}"),
-                  div(`class` := "description")(s"Long: ${user.address.geo.lng}"),
-                  br,
-                  br
-                )
-              )
-            ),
-            div(`class` := "six wide column")(
-              div(`class` := "ui card")(
-                div(`class` := "content")(
-                  div(`class` := "header")(text("Company")),
-                  div(`class` := "description")(user.company.name),
-                  div(`class` := "description")(user.company.catchPhrase),
-                  div(`class` := "description")(user.company.bs),
-                  br
-                )
-              )
-            )
-          )
-        }
+        (if model.users.length == 1 then userDetailView(model.users.head) :: Nil
+         else userListView(model))
     )
 
   def subscriptions(model: Users): Sub[IO, Msg] = Sub.None
@@ -90,17 +41,13 @@ enum Msg:
 
 object Msg:
   private val onUsersResponse: Response => Msg = { response =>
-    val json = response.body
-
-    decode[List[User]](json) match {
+    decode[List[User]](response.body) match {
       case Left(error)  => Msg.UsersError(error.getMessage)
       case Right(users) => Msg.DisplayUsers(Users(users))
     }
   }
   private val onUserResponse: Response => Msg = { response =>
-    val json = response.body
-
-    decode[User](json) match {
+    decode[User](response.body) match {
       case Left(error) => Msg.UsersError(error.getMessage)
       case Right(user) => Msg.DisplayUser(user)
     }
