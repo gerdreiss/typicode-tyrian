@@ -7,8 +7,9 @@ def usersView(model: Users): Html[Msg] =
   div(`class` := "ui raised very padded container segment")(
     userHeader(model) ::
       div(`class` := "ui divider")() ::
-      (if model.users.length == 1 then userDetailView(model.users.head) :: Nil
-       else userListView(model))
+      (if model.error.isDefined then div(`class` := "content")(text(model.error.get)) :: Nil
+       else if model.users.length == 1 then userDetailView(model.users.head) :: Nil
+       else userListView(model.users))
   )
 
 def userHeader(model: Users): Html[Msg] =
@@ -37,16 +38,25 @@ def userHeader(model: Users): Html[Msg] =
       case _ => div(`class` := "content")(text("Users"))
   )
 
-def userListView(users: Users): List[Html[Msg]] =
-  users.users.map { user =>
+def userListView(users: List[User]): List[Html[Msg]] =
+  users.map { user =>
     div(`class` := "ui grid")(
       div(`class` := "four wide column")(
         div(`class` := "ui card")(
           div(`class` := "content")(
             div(`class` := "header")(a(onClick(Msg.GetUser(user.id)))(user.name)),
-            div(`class` := "description")(user.email),
-            div(`class` := "description")(user.phone),
-            div(`class` := "description")(user.website),
+            div(`class` := "description")(
+              i(`class` := "at icon")(),
+              text(user.email)
+            ),
+            div(`class` := "description")(
+              i(`class` := "phone icon")(),
+              text(user.phone)
+            ),
+            div(`class` := "description")(
+              i(`class` := "globe icon")(),
+              text(user.website)
+            ),
             br
           )
         )
@@ -58,7 +68,14 @@ def userListView(users: Users): List[Html[Msg]] =
             div(`class` := "description")(user.address.street),
             div(`class` := "description")(user.address.suite),
             div(`class` := "description")(user.address.city),
-            div(`class` := "description")(user.address.zipcode),
+            div(`class` := "description")(user.address.zipcode)
+          )
+        )
+      ),
+      div(`class` := "three wide column")(
+        div(`class` := "ui card")(
+          div(`class` := "content")(
+            div(`class` := "header")(text("Position")),
             div(`class` := "description")(s"Lat: ${user.address.geo.lat}"),
             div(`class` := "description")(s"Lng: ${user.address.geo.lng}"),
             br,
@@ -85,10 +102,18 @@ def userDetailView(user: User): Html[Msg] =
     div(`class` := "five wide column")(
       div(`class` := "ui card")(
         div(`class` := "content")(
-          div(`class` := "header")(text("Contact")),
-          div(`class` := "description")(user.email),
-          div(`class` := "description")(user.phone),
-          div(`class` := "description")(user.website)
+          div(`class` := "description")(
+            i(`class` := "at icon")(),
+            text(user.email)
+          ),
+          div(`class` := "description")(
+            i(`class` := "phone icon")(),
+            text(user.phone)
+          ),
+          div(`class` := "description")(
+            i(`class` := "globe icon")(),
+            text(user.website)
+          )
         )
       ),
       div(`class` := "ui card")(
@@ -97,12 +122,7 @@ def userDetailView(user: User): Html[Msg] =
           div(`class` := "description")(user.address.street),
           div(`class` := "description")(user.address.suite),
           div(`class` := "description")(user.address.city),
-          div(`class` := "description")(user.address.zipcode)
-        )
-      ),
-      div(`class` := "ui card")(
-        div(`class` := "content")(
-          div(`class` := "header")(text("Position")),
+          div(`class` := "description")(user.address.zipcode),
           div(`class` := "description")(s"Lat: ${user.address.geo.lat}"),
           div(`class` := "description")(s"Long: ${user.address.geo.lng}")
         )
@@ -133,12 +153,12 @@ def userDetailView(user: User): Html[Msg] =
       h3(`class` := "ui header")(
         div(`class` := "content")(
           i(`class` := "edit icon")(),
-          text("Comments")
+          text("Posts")
         )
       ),
       div(`class` := "ui card")(
         div(`class` := "content")(
-          div(`class` := "header")(text("Comments"))
+          div(`class` := "header")(text("Posts"))
         )
       )
     )

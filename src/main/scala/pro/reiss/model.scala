@@ -21,6 +21,20 @@ final case class Company(
     bs: String
 ) derives Codec.AsObject
 
+final case class Todo(
+    userId: Int,
+    id: Int,
+    title: String,
+    completed: Boolean
+) derives Codec.AsObject
+
+final case class Post(
+    userId: Int,
+    id: Int,
+    title: String,
+    body: String
+) derives Codec.AsObject
+
 final case class User(
     id: Int,
     name: String,
