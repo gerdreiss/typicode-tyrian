@@ -3,12 +3,38 @@ package pro.reiss
 import tyrian.Html.*
 import tyrian.*
 
+def usersView(model: Users): Html[Msg] =
+  div(`class` := "ui raised very padded container segment")(
+    userHeader(model) ::
+      div(`class` := "ui divider")() ::
+      (if model.users.length == 1 then userDetailView(model.users.head) :: Nil
+       else userListView(model))
+  )
+
 def userHeader(model: Users): Html[Msg] =
   h1(`class` := "ui header")(
     i(`class` := "circular users icon")(),
     model.users match
-      case user :: Nil => text(model.users.head.name)
-      case _           => text("Users")
+      case user :: Nil =>
+        div(`class` := "content", style("width", "91%"))(
+          div(`class` := "ui grid")(
+            div(`class` := "row")(
+              div(`class` := "fourteen wide column")(
+                p(model.users.head.name)
+              ),
+              div(`class` := "two wide column")(
+                button(
+                  `class` := "large ui left labeled icon button",
+                  onClick(Msg.GetAllUsers)
+                )(
+                  i(`class` := "left chevron icon")(),
+                  text("Back")
+                )
+              )
+            )
+          )
+        )
+      case _ => div(`class` := "content")(text("Users"))
   )
 
 def userListView(users: Users): List[Html[Msg]] =
@@ -32,16 +58,9 @@ def userListView(users: Users): List[Html[Msg]] =
             div(`class` := "description")(user.address.street),
             div(`class` := "description")(user.address.suite),
             div(`class` := "description")(user.address.city),
-            div(`class` := "description")(user.address.zipcode)
-          )
-        )
-      ),
-      div(`class` := "three wide column")(
-        div(`class` := "ui card")(
-          div(`class` := "content")(
-            div(`class` := "header")(text("Position")),
+            div(`class` := "description")(user.address.zipcode),
             div(`class` := "description")(s"Lat: ${user.address.geo.lat}"),
-            div(`class` := "description")(s"Long: ${user.address.geo.lng}"),
+            div(`class` := "description")(s"Lng: ${user.address.geo.lng}"),
             br,
             br
           )
@@ -63,11 +82,7 @@ def userListView(users: Users): List[Html[Msg]] =
 
 def userDetailView(user: User): Html[Msg] =
   div(`class` := "ui grid")(
-    div(`class` := "seven wide column")(
-      button(`class` := "ui left labeled icon button", onClick(Msg.GetAllUsers))(
-        i(`class` := "left angle icon")(),
-        text("Back")
-      ),
+    div(`class` := "five wide column")(
       div(`class` := "ui card")(
         div(`class` := "content")(
           div(`class` := "header")(text("Contact")),
@@ -98,6 +113,32 @@ def userDetailView(user: User): Html[Msg] =
           div(`class` := "description")(user.company.name),
           div(`class` := "description")(user.company.catchPhrase),
           div(`class` := "description")(user.company.bs)
+        )
+      )
+    ),
+    div(`class` := "five wide column")(
+      h3(`class` := "ui header")(
+        div(`class` := "content")(
+          i(`class` := "list icon")(),
+          text("To-Do List")
+        )
+      ),
+      div(`class` := "ui card")(
+        div(`class` := "content")(
+          div(`class` := "header")(text("To-Do List"))
+        )
+      )
+    ),
+    div(`class` := "five wide column")(
+      h3(`class` := "ui header")(
+        div(`class` := "content")(
+          i(`class` := "edit icon")(),
+          text("Comments")
+        )
+      ),
+      div(`class` := "ui card")(
+        div(`class` := "content")(
+          div(`class` := "header")(text("Comments"))
         )
       )
     )

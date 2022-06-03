@@ -22,13 +22,7 @@ object TypicodeClient extends TyrianApp[Msg, Users]:
     case Msg.DisplayUser(user)   => (model.copy(users = List(user)), Cmd.None)
   }
 
-  def view(model: Users): Html[Msg] =
-    div(`class` := "ui raised very padded container segment")(
-      userHeader(model) ::
-        div(`class` := "ui divider")() ::
-        (if model.users.length == 1 then userDetailView(model.users.head) :: Nil
-         else userListView(model))
-    )
+  def view(model: Users): Html[Msg] = usersView(model)
 
   def subscriptions(model: Users): Sub[IO, Msg] = Sub.None
 
