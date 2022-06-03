@@ -27,12 +27,13 @@ def userHeader(t: String, msg: Msg): Html[Msg] =
           p(t)
         ),
         div(`class` := "two wide column")(
-          button(
-            `class` := "large ui left labeled icon button",
-            onClick(msg)
-          )(
-            i(`class` := "left chevron icon")(),
-            text("Back")
+          button(`class` := "ui basic button", onClick(msg))(
+            div(`class` := "ui grid")(
+              div(`class` := "row")(
+                i(`class` := "left arrow icon")(),
+                text("Back")
+              )
+            )
           )
         )
       )
@@ -42,20 +43,9 @@ def userHeader(t: String, msg: Msg): Html[Msg] =
 def targetedView(model: Users): List[Html[Msg]] =
   model.displayTarget match
     case DisplayTarget.USERS => userListView(model.users)
-    case DisplayTarget.USER  => List(userDetailView(model.users.head, model.todos, model.posts))
-    case DisplayTarget.POST  => List(postView(model.posts.head))
-    case DisplayTarget.ERROR => List(div(`class` := "content")(text(model.error.get)))
-
-def postView(post: Post): Html[Msg] =
-  div(`class` := "ui card", style("width", "94%"))(
-    div(`class` := "content")(
-      div(`class` := "header")(
-        i(`class` := "edit icon")(),
-        text(post.title)
-      ),
-      div(`class` := "description")(text(post.body))
-    )
-  )
+    case DisplayTarget.USER  => userDetailView(model.users.head, model.todos, model.posts)
+    case DisplayTarget.POST  => postView(model.posts.head, model.comments)
+    case DisplayTarget.ERROR => div(`class` := "content")(text(model.error.get)) :: Nil
 
 def userListView(users: List[User]): List[Html[Msg]] =
   users.map { user =>
@@ -125,7 +115,7 @@ def userListView(users: List[User]): List[Html[Msg]] =
     )
   }
 
-def userDetailView(user: User, todos: List[Todo], posts: List[Post]): Html[Msg] =
+def userDetailView(user: User, todos: List[Todo], posts: List[Post]): List[Html[Msg]] =
   div(`class` := "ui grid")(
     div(`class` := "five wide column")(
       div(`class` := "ui card")(
@@ -208,4 +198,31 @@ def userDetailView(user: User, todos: List[Todo], posts: List[Post]): Html[Msg] 
         }
       )
     )
-  )
+  ) :: Nil
+
+def postView(post: Post, comments: List[Comment]): List[Html[Msg]] =
+  div(`class` := "ui card", style("width", "94%"))(
+    div(`class` := "content")(
+      div(`class` := "header")(
+        i(`class` := "edit icon")(),
+        text(post.title)
+      ),
+      div(`class` := "description")(text(post.body))
+    )
+  ) ::
+    div(`class` := "ui divider")() ::
+    comments.map { comment =>
+      div(`class` := "ui relaxed divided list", style("width", "94%"))(
+        div(`class` := "item")(
+          i(`class` := "large comment middle aligned icon")(),
+          div(`class` := "content")(
+            div(`class` := "header")(comment.name),
+            div(`class` := "meta")(
+              i(`class` := "envelope icon")(),
+              text(comment.email)
+            ),
+            div(`class` := "description")(p(comment.name))
+          )
+        )
+      )
+    }

@@ -39,8 +39,12 @@ object TypicodeClient extends TyrianApp[Msg, Users]:
     case Msg.DisplayPost(user, post) =>
       (
         model.copy(displayTarget = DisplayTarget.POST, users = List(user), posts = List(post)),
-        Cmd.None
+        HttpHelper.getPostComments(post.id)
       )
+    case Msg.GetPostComments(id) =>
+      (model, HttpHelper.getPostComments(id))
+    case Msg.DisplayPostComments(comments) =>
+      (model.copy(displayTarget = DisplayTarget.POST, comments = comments), Cmd.None)
   }
 
   def view(model: Users): Html[Msg] = usersView(model)

@@ -12,23 +12,29 @@ object HttpHelper:
       Msg.fromUsersResponse
     )
 
-  def getUser(id: Int): Cmd[IO, Msg] =
+  def getUser(userId: Int): Cmd[IO, Msg] =
     Http.send(
-      Request.get(s"https://jsonplaceholder.typicode.com/users/$id"),
+      Request.get(s"https://jsonplaceholder.typicode.com/users/$userId"),
       Msg.fromUserResponse
     )
 
-  def getUserTodos(id: Int): Cmd[IO, Msg] =
+  def getUserTodos(userId: Int): Cmd[IO, Msg] =
     Http.send(
-      Request.get(s"https://jsonplaceholder.typicode.com/users/$id/todos"),
+      Request.get(s"https://jsonplaceholder.typicode.com/users/$userId/todos"),
       Msg.fromUserTodosResponse
     )
 
-  def getUserPosts(id: Int): Cmd[IO, Msg] =
+  def getUserPosts(userId: Int): Cmd[IO, Msg] =
     Http.send(
-      Request.get(s"https://jsonplaceholder.typicode.com/users/$id/posts"),
+      Request.get(s"https://jsonplaceholder.typicode.com/users/$userId/posts"),
       Msg.fromUserPostsResponse
     )
 
-  def getUserTodosAndPosts(id: Int): Cmd[IO, Msg] =
-    getUserTodos(id) |+| getUserPosts(id)
+  def getUserTodosAndPosts(userId: Int): Cmd[IO, Msg] =
+    getUserTodos(userId) |+| getUserPosts(userId)
+
+  def getPostComments(postId: Int): Cmd[IO, Msg] =
+    Http.send(
+      Request.get(s"https://jsonplaceholder.typicode.com/posts/$postId/comments"),
+      Msg.fromPostCommentsResponse
+    )

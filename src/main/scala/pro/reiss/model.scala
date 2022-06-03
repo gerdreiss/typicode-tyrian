@@ -24,6 +24,17 @@ final case class Company(
     bs: String
 ) derives Codec.AsObject
 
+final case class User(
+    id: Int,
+    name: String,
+    username: String,
+    email: String,
+    phone: String,
+    website: String,
+    address: Address,
+    company: Company
+) derives Codec.AsObject
+
 final case class Todo(
     userId: Int,
     id: Int,
@@ -38,21 +49,19 @@ final case class Post(
     body: String
 ) derives Codec.AsObject
 
-final case class User(
+final case class Comment(
+    postId: Int,
     id: Int,
     name: String,
-    username: String,
     email: String,
-    phone: String,
-    website: String,
-    address: Address,
-    company: Company
+    body: String
 ) derives Codec.AsObject
 
 final case class Users(
     users: List[User] = List.empty,
     todos: List[Todo] = List.empty,
     posts: List[Post] = List.empty,
+    comments: List[Comment] = List.empty,
     error: Option[String] = None,
     displayTarget: DisplayTarget = DisplayTarget.USERS
 ) derives Codec.AsObject
