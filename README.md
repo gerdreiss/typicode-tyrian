@@ -22,7 +22,7 @@ In the first, we'll run sbt.
 sbt
 ```
 
-From now on, we can recompile the app with `fastOptJS` or `fullOptJS` _**but please note** that the `tyrianapp.js` file in the root is expecting the output from `fastOptJS`_.
+From now on, we can recompile the app with `fastOptJS` or `fullOptJS` _**but please note** that the `TypicodeApp.js` file in the root is expecting the output from `fastOptJS`_.
 
 Run `fastOptJS` now to get an initial build in place.
 
