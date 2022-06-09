@@ -14,37 +14,37 @@ import Domain.*
 object TypicodeApp extends TyrianApp[Messages, Users]:
 
   def init(flags: Map[String, String]): (Users, Cmd[IO, Messages]) =
-    (Users.empty, TypecodeClient.getAllUsers)
+    (Users.empty, TypicodeClient.getAllUsers)
 
   def update(model: Users): Messages => (Users, Cmd[IO, Messages]) = {
-    case Messages.UsersError(_) =>
+    case Messages.DisplayError(_) =>
       (model.copy(displayTarget = DisplayTarget.ERROR), Cmd.None)
     case Messages.GetAllUsers =>
-      (model, TypecodeClient.getAllUsers)
+      (model, TypicodeClient.getAllUsers)
     case Messages.DisplayUsers(users) =>
       (users.copy(displayTarget = DisplayTarget.USERS), Cmd.None)
     case Messages.GetUser(id) =>
-      (model, TypecodeClient.getUser(id))
+      (model, TypicodeClient.getUser(id))
     case Messages.DisplayUser(user) =>
       (
         model.copy(displayTarget = DisplayTarget.USER, users = List(user)),
-        TypecodeClient.getUserTodosAndPosts(user.id)
+        TypicodeClient.getUserTodosAndPosts(user.id)
       )
     case Messages.GetUserTodos(id) =>
-      (model, TypecodeClient.getUserTodos(id))
+      (model, TypicodeClient.getUserTodos(id))
     case Messages.DisplayUserTodos(todos) =>
       (model.copy(displayTarget = DisplayTarget.USER, todos = todos), Cmd.None)
     case Messages.GetUserPosts(id) =>
-      (model, TypecodeClient.getUserPosts(id))
+      (model, TypicodeClient.getUserPosts(id))
     case Messages.DisplayUserPosts(posts) =>
       (model.copy(displayTarget = DisplayTarget.USER, posts = posts), Cmd.None)
-    case Messages.DisplayPost(user, post) =>
+    case Messages.DisplayUserPost(user, post) =>
       (
         model.copy(displayTarget = DisplayTarget.POST, users = List(user), posts = List(post)),
-        TypecodeClient.getPostComments(post.id)
+        TypicodeClient.getPostComments(post.id)
       )
     case Messages.GetPostComments(id) =>
-      (model, TypecodeClient.getPostComments(id))
+      (model, TypicodeClient.getPostComments(id))
     case Messages.DisplayPostComments(comments) =>
       (model.copy(displayTarget = DisplayTarget.POST, comments = comments), Cmd.None)
   }

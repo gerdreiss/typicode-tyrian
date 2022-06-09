@@ -5,7 +5,7 @@ import tyrian.Cmd
 import tyrian.http.Http
 import tyrian.http.*
 
-object TypecodeClient:
+object TypicodeClient:
   def getAllUsers: Cmd[IO, Messages] =
     Http.send(
       Request.get("https://jsonplaceholder.typicode.com/users"),

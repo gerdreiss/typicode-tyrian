@@ -190,7 +190,7 @@ object Views:
             div(`class` := "item")(
               i(`class` := "check icon")(),
               div(`class` := "content")(
-                a(`class` := "header", onClick(Messages.DisplayPost(user, post)))(post.title),
+                a(`class` := "header", onClick(Messages.DisplayUserPost(user, post)))(post.title),
                 div(`class` := "description")(text(post.body))
               )
             )
@@ -212,7 +212,7 @@ object Views:
       div(`class` := "ui relaxed divided list", style("width", "94%"))(
         comments.map { comment =>
           div(`class` := "item")(
-            i(`class` := "large comment middle aligned icon")(),
+            i(`class` := "large comment top aligned icon")(),
             div(`class` := "content")(
               div(`class` := "header")(comment.name),
               div(`class` := "meta")(
