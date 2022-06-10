@@ -16,7 +16,7 @@ lazy val `typicode-tyrian` =
       scalaVersion := "3.1.2",
       organization := "pro.reiss",
       libraryDependencies ++= Seq(
-        "io.indigoengine" %%% "tyrian-io"    % "0.5.0",
+        "io.indigoengine" %%% "tyrian-io"    % "0.5.1",
         "io.circe"        %%% "circe-parser" % "0.14.2",
         "org.scalameta"   %%% "munit"        % "0.7.29" % Test
       ),

@@ -188,7 +188,7 @@ object Views:
         div(`class` := "ui relaxed divided list")(
           posts.map { post =>
             div(`class` := "item")(
-              i(`class` := "check icon")(),
+              i(`class` := "edit icon")(),
               div(`class` := "content")(
                 a(`class` := "header", onClick(Messages.DisplayUserPost(user, post)))(post.title),
                 div(`class` := "description")(text(post.body))
