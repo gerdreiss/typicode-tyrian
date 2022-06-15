@@ -7,31 +7,31 @@ import Domain.*
 
 object Views:
   def usersView(model: Users): Html[Messages] =
-    div(`class` := "ui raised very padded container segment")(
-      targetedHeader(model) :: div(`class` := "ui divider")() :: targetedView(model)
+    div(cls := "ui raised very padded container segment")(
+      targetedHeader(model) :: div(cls := "ui divider")() :: targetedView(model)
     )
 
   def targetedHeader(model: Users): Html[Messages] =
-    h1(`class` := "ui header")(
-      i(`class` := "circular users icon")(),
+    h1(cls := "ui header")(
+      i(cls := "circular users icon")(),
       model.displayTarget match
         case DisplayTarget.USER =>
           userHeader(model.users.head.name, Messages.GetAllUsers)
         case DisplayTarget.POST =>
           userHeader(model.users.head.name, Messages.GetUser(model.users.head.id))
-        case _ => div(`class` := "content")(text("Users"))
+        case _ => div(cls := "content")(text("Users"))
     )
 
   def userHeader(t: String, msg: Messages): Html[Messages] =
-    div(`class` := "content", style("width", "92%"))(
-      div(`class` := "ui grid")(
-        div(`class` := "row")(
-          div(`class` := "fourteen wide column")(
+    div(cls := "content", style("width", "92%"))(
+      div(cls := "ui grid")(
+        div(cls := "row")(
+          div(cls := "fourteen wide column")(
             p(t)
           ),
-          div(`class` := "two wide column")(
-            button(`class` := "ui labeled button", onClick(msg))(
-              i(`class` := "left arrow icon")(),
+          div(cls := "two wide column")(
+            button(cls := "ui labeled button", onClick(msg))(
+              i(cls := "left arrow icon")(),
               text("Back")
             )
           )
@@ -44,69 +44,69 @@ object Views:
       case DisplayTarget.USERS => userListView(model.users)
       case DisplayTarget.USER  => userDetailView(model.users.head, model.todos, model.posts)
       case DisplayTarget.POST  => postView(model.posts.head, model.comments)
-      case DisplayTarget.ERROR => div(`class` := "content")(text(model.error.get)) :: Nil
+      case DisplayTarget.ERROR => div(cls := "content")(text(model.error.get)) :: Nil
 
   def userListView(users: List[User]): List[Html[Messages]] =
     users.map { user =>
-      div(`class` := "ui grid")(
-        div(`class` := "four wide column")(
-          div(`class` := "ui card")(
-            div(`class` := "content")(
-              div(`class` := "header")(a(onClick(Messages.GetUser(user.id)))(user.name)),
-              div(`class` := "description")(
-                i(`class` := "envelope icon")(),
+      div(cls := "ui grid")(
+        div(cls := "four wide column")(
+          div(cls := "ui card")(
+            div(cls := "content")(
+              div(cls := "header")(a(onClick(Messages.GetUser(user.id)))(user.name)),
+              div(cls := "description")(
+                i(cls := "envelope icon")(),
                 text(user.email)
               ),
-              div(`class` := "description")(
-                i(`class` := "phone icon")(),
+              div(cls := "description")(
+                i(cls := "phone icon")(),
                 text(user.phone)
               ),
-              div(`class` := "description")(
-                i(`class` := "globe icon")(),
+              div(cls := "description")(
+                i(cls := "globe icon")(),
                 text(user.website)
               ),
               br
             )
           )
         ),
-        div(`class` := "three wide column")(
-          div(`class` := "ui card")(
-            div(`class` := "content")(
-              div(`class` := "header")(
-                i(`class` := "address book icon")(),
+        div(cls := "three wide column")(
+          div(cls := "ui card")(
+            div(cls := "content")(
+              div(cls := "header")(
+                i(cls := "address book icon")(),
                 text("Address")
               ),
-              div(`class` := "description")(user.address.street),
-              div(`class` := "description")(user.address.suite),
-              div(`class` := "description")(user.address.city),
-              div(`class` := "description")(user.address.zipcode)
+              div(cls := "description")(user.address.street),
+              div(cls := "description")(user.address.suite),
+              div(cls := "description")(user.address.city),
+              div(cls := "description")(user.address.zipcode)
             )
           )
         ),
-        div(`class` := "three wide column")(
-          div(`class` := "ui card")(
-            div(`class` := "content")(
-              div(`class` := "header")(
-                i(`class` := "location arrow icon")(),
+        div(cls := "three wide column")(
+          div(cls := "ui card")(
+            div(cls := "content")(
+              div(cls := "header")(
+                i(cls := "location arrow icon")(),
                 text("Position")
               ),
-              div(`class` := "description")(s"Lat: ${user.address.geo.lat}"),
-              div(`class` := "description")(s"Lng: ${user.address.geo.lng}"),
+              div(cls := "description")(s"Lat: ${user.address.geo.lat}"),
+              div(cls := "description")(s"Lng: ${user.address.geo.lng}"),
               br,
               br
             )
           )
         ),
-        div(`class` := "six wide column")(
-          div(`class` := "ui card")(
-            div(`class` := "content")(
-              div(`class` := "header")(
-                i(`class` := "building icon")(),
+        div(cls := "six wide column")(
+          div(cls := "ui card")(
+            div(cls := "content")(
+              div(cls := "header")(
+                i(cls := "building icon")(),
                 text("Company")
               ),
-              div(`class` := "description")(user.company.name),
-              div(`class` := "description")(user.company.catchPhrase),
-              div(`class` := "extra content")(p(user.company.bs)),
+              div(cls := "description")(user.company.name),
+              div(cls := "description")(user.company.catchPhrase),
+              div(cls := "extra content")(p(user.company.bs)),
               br
             )
           )
@@ -115,83 +115,83 @@ object Views:
     }
 
   def userDetailView(user: User, todos: List[Todo], posts: List[Post]): List[Html[Messages]] =
-    div(`class` := "ui grid")(
-      div(`class` := "five wide column")(
-        div(`class` := "ui card")(
-          div(`class` := "content")(
-            div(`class` := "description")(
-              i(`class` := "envelope icon")(),
+    div(cls := "ui grid")(
+      div(cls := "five wide column")(
+        div(cls := "ui card")(
+          div(cls := "content")(
+            div(cls := "description")(
+              i(cls := "envelope icon")(),
               text(user.email)
             ),
-            div(`class` := "description")(
-              i(`class` := "phone icon")(),
+            div(cls := "description")(
+              i(cls := "phone icon")(),
               text(user.phone)
             ),
-            div(`class` := "description")(
-              i(`class` := "globe icon")(),
+            div(cls := "description")(
+              i(cls := "globe icon")(),
               text(user.website)
             )
           )
         ),
-        div(`class` := "ui card")(
-          div(`class` := "content")(
-            div(`class` := "header")(
-              i(`class` := "address book icon")(),
+        div(cls := "ui card")(
+          div(cls := "content")(
+            div(cls := "header")(
+              i(cls := "address book icon")(),
               text("Address")
             ),
-            div(`class` := "description")(user.address.street),
-            div(`class` := "description")(user.address.suite),
-            div(`class` := "description")(user.address.city),
-            div(`class` := "description")(user.address.zipcode),
-            div(`class` := "description")(s"Lat: ${user.address.geo.lat}"),
-            div(`class` := "description")(s"Long: ${user.address.geo.lng}")
+            div(cls := "description")(user.address.street),
+            div(cls := "description")(user.address.suite),
+            div(cls := "description")(user.address.city),
+            div(cls := "description")(user.address.zipcode),
+            div(cls := "description")(s"Lat: ${user.address.geo.lat}"),
+            div(cls := "description")(s"Long: ${user.address.geo.lng}")
           )
         ),
-        div(`class` := "ui card")(
-          div(`class` := "content")(
-            div(`class` := "header")(
-              i(`class` := "building icon")(),
+        div(cls := "ui card")(
+          div(cls := "content")(
+            div(cls := "header")(
+              i(cls := "building icon")(),
               text("Company")
             ),
-            div(`class` := "description")(user.company.name),
-            div(`class` := "description")(user.company.catchPhrase),
-            div(`class` := "description")(user.company.bs)
+            div(cls := "description")(user.company.name),
+            div(cls := "description")(user.company.catchPhrase),
+            div(cls := "description")(user.company.bs)
           )
         )
       ),
-      div(`class` := "five wide column")(
-        h3(`class` := "ui header")(
-          div(`class` := "content")(
-            i(`class` := "list icon")(),
+      div(cls := "five wide column")(
+        h3(cls := "ui header")(
+          div(cls := "content")(
+            i(cls := "list icon")(),
             text("To-Do List")
           )
         ),
-        div(`class` := "ui relaxed divided list")(
+        div(cls := "ui relaxed divided list")(
           todos.map { todo =>
-            div(`class` := "item")(
-              if todo.completed then i(`class` := "check icon")()
-              else i(`class` := "square outline icon")(),
-              div(`class` := "content")(
-                div(`class` := "description")(todo.title)
+            div(cls := "item")(
+              if todo.completed then i(cls := "check icon")()
+              else i(cls := "square outline icon")(),
+              div(cls := "content")(
+                div(cls := "description")(todo.title)
               )
             )
           }
         )
       ),
-      div(`class` := "five wide column")(
-        h3(`class` := "ui header")(
-          div(`class` := "content")(
-            i(`class` := "edit icon")(),
+      div(cls := "five wide column")(
+        h3(cls := "ui header")(
+          div(cls := "content")(
+            i(cls := "edit icon")(),
             text("Posts")
           )
         ),
-        div(`class` := "ui relaxed divided list")(
+        div(cls := "ui relaxed divided list")(
           posts.map { post =>
-            div(`class` := "item")(
-              i(`class` := "edit icon")(),
-              div(`class` := "content")(
-                a(`class` := "header", onClick(Messages.DisplayUserPost(user, post)))(post.title),
-                div(`class` := "description")(text(post.body))
+            div(cls := "item")(
+              i(cls := "edit icon")(),
+              div(cls := "content")(
+                a(cls := "header", onClick(Messages.DisplayUserPost(user, post)))(post.title),
+                div(cls := "description")(text(post.body))
               )
             )
           }
@@ -200,27 +200,27 @@ object Views:
     ) :: Nil
 
   def postView(post: Post, comments: List[Comment]): List[Html[Messages]] =
-    div(`class` := "ui card", style("width", "94%"))(
-      div(`class` := "content")(
-        div(`class` := "header")(
-          i(`class` := "edit icon")(),
+    div(cls := "ui card", style("width", "94%"))(
+      div(cls := "content")(
+        div(cls := "header")(
+          i(cls := "edit icon")(),
           text(post.title)
         ),
-        div(`class` := "description")(text(post.body))
+        div(cls := "description")(text(post.body))
       )
     ) ::
-      div(`class` := "ui relaxed divided list", style("width", "94%"))(
+      div(cls := "ui relaxed divided list", style("width", "94%"))(
         comments.map { comment =>
-          div(`class` := "item")(
-            i(`class` := "large comment top aligned icon")(),
-            div(`class` := "content")(
-              div(`class` := "header")(comment.name),
-              div(`class` := "meta")(
-                i(`class` := "envelope icon")(),
+          div(cls := "item")(
+            i(cls := "large comment top aligned icon")(),
+            div(cls := "content")(
+              div(cls := "header")(comment.name),
+              div(cls := "meta")(
+                i(cls := "envelope icon")(),
                 text(comment.email)
               ),
               br,
-              div(`class` := "item")(p(comment.body))
+              div(cls := "item")(p(comment.body))
             )
           )
         }
