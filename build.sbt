@@ -16,7 +16,7 @@ lazy val `typicode-tyrian` =
       scalaVersion := "3.2.0",
       organization := "pro.reiss",
       libraryDependencies ++= Seq(
-        "io.indigoengine" %%% "tyrian-io"    % "0.5.1",
+        "io.indigoengine" %%% "tyrian-io"    % "0.6.0",
         "io.circe"        %%% "circe-parser" % "0.15.0-M1"
       ),
       scalaJSLinkerConfig ~= { _.withModuleKind(ModuleKind.CommonJSModule) },
