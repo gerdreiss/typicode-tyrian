@@ -1,3 +1,3 @@
-import { TyrianApp } from './target/scala-3.1.3/typicode-tyrian-fastopt.js';
+import { TyrianApp } from './target/scala-3.2.0/typicode-tyrian-fastopt.js';
 
 TyrianApp.launch('TypicodeApp');
