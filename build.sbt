@@ -13,7 +13,7 @@ lazy val `typicode-tyrian` =
     .settings( // Normal settings
       name         := "typicode-tyrian",
       version      := "0.0.1",
-      scalaVersion := "3.2.0",
+      scalaVersion := "3.2.1",
       organization := "pro.reiss",
       libraryDependencies ++= Seq(
         "io.indigoengine" %%% "tyrian-io"    % "0.6.0",
